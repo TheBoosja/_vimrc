@@ -2,7 +2,6 @@
 " ====  Master Boosja's _vimrc file  ====
 " ===== http://www.github/theboosja =====
 
-
 syntax enable
 
 " ================== "
@@ -13,8 +12,8 @@ set nocompatible
 filetype off
 
 " set the runtime path to include Vundle and initialize
-set rtp+=$HOME/.vim/bundle/Vundle.vim/
-call vundle#begin('$HOME/.vim/bundle/')
+set rtp+=$HOME/vimfiles/bundle/Vundle.vim/
+call vundle#begin('$HOME/vimfiles/bundle/')
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-fugitive'
@@ -40,14 +39,6 @@ nnoremap <leader>th :tabfirst<CR>
 nnoremap <leader>tj :tabnext<CR>
 nnoremap <leader>tk :tabprev<CR>
 nnoremap <leader>tl :tablast<CR>
-
-
-inoremap { {<CR>}<Esc>ko
-inoremap ( ()<Esc>i
-inoremap [ []<Esc>i
-
-inoremap ½ $
-nnoremap ½ $
 
 
 
