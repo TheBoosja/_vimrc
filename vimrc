@@ -1,8 +1,17 @@
 
-" ====  Master Boosja's _vimrc file  ====
-" ===== http://www.github/theboosja =====
+" ======= Master Boosja's vimrc file  ======= "
+" ===== http://www.github.com/TheBoosja ===== "
 
 syntax enable
+colorscheme base16-atelier-forest
+
+if has('gui_running')
+	set guioptions-=T  " no toolbar
+	set guifont=Courier_New:h9:cANSI:qDRAFT
+	set lines=50 columns=108 linespace=0
+endif
+
+
 
 " ================== "
 " ==== PLUGINS ===== "
@@ -17,28 +26,32 @@ call vundle#begin('$HOME/vimfiles/bundle/')
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-fugitive'
+Plugin 'chriskempson/base16-vim'
 
 call vundle#end()
 filetype plugin indent on
+
 
 
 " ================== "
 " ==== MAPPINGS ==== "
 " ================== "
 
-" Reload vimrc without quitting.
-nnoremap <leader>rv :source $MYVIMRC<CR>
+" Remap <leader>
+let mapleader = "\<Space>"
 
-" CMD to _vimrc.
+nnoremap <leader>rv :source $MYVIMRC<CR>
 nnoremap <leader>av :tabnew $MYVIMRC<CR>
 
+nnoremap <leader>w :w<CR>
+nnoremap <leader>q :wq<CR>
 
-" Tab management
-nnoremap <leader>tn :tabnew
-nnoremap <leader>th :tabfirst<CR>
-nnoremap <leader>tj :tabnext<CR>
-nnoremap <leader>tk :tabprev<CR>
-nnoremap <leader>tl :tablast<CR>
+nnoremap <leader>n :tabnew
+nnoremap <leader>x :tabclose<CR>
+nnoremap <leader>h :tabfirst<CR>
+nnoremap <leader>j :tabnext<CR>
+nnoremap <leader>k :tabprev<CR>
+nnoremap <leader>l :tablast<CR>
 
 
 
@@ -46,26 +59,17 @@ nnoremap <leader>tl :tablast<CR>
 " ==== SETTINGS ==== "
 " ================== "
 
-" Show line numbers.
 set number relativenumber
 
-
-" Toggles line number mode between modes.
 augroup numbertoggle
   autocmd!
   autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
   autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup END
 
-
-" Show the ruler
 set ruler
-
-
-" Tabs
 set tabstop=4 		" tab
 set shiftwidth=4 	" indent
-
 set smartindent
 
 
