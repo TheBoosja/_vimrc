@@ -15,6 +15,7 @@ filetype off
 set rtp+=$HOME/vimfiles/bundle/Vundle.vim/
 call vundle#begin('$HOME/vimfiles/bundle/')
 
+" =====================================================
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'tpope/vim-fugitive'
@@ -23,6 +24,7 @@ Plugin 'itchyny/lightline.vim'
 " Color Schemes
 Plugin 'chriskempson/base16-vim'
 Plugin 'vim-scripts/Wombat'
+" =====================================================
 
 call vundle#end()
 filetype plugin indent on
