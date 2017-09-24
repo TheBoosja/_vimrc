@@ -1,33 +1,35 @@
-" ########################################### "
-" ####### Master Boosja's vimrc file  ####### "
-" ##### http://www.github.com/TheBoosja ##### "
-" ########################################### "
+" =========================================== "
+" ======[ Master Boosja's vimrc file ]======= "
+" ====[ http://www.github.com/TheBoosja ]==== "
+" =========================================== "
 
+set foldmethod=marker
 
-" ================== "
-" ==== PLUGINS ===== "
-" ================== "
+" ==[ PLUGINS  ]== {{{"
 
 set nocompatible
 filetype off
 
-" set the runtime path to include Vundle and initialize
+" --[ plugins ]-- {{{ "
 set rtp+=$HOME/vimfiles/bundle/Vundle.vim/
 call vundle#begin('$HOME/vimfiles/bundle/')
 
 " =====================================================
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'tpope/vim-fugitive'
-Plugin 'itchyny/lightline.vim'
-
 " Color Schemes
 Plugin 'chriskempson/base16-vim'
 Plugin 'vim-scripts/Wombat'
+
+Plugin 'tpope/vim-fugitive'
+Plugin 'itchyny/lightline.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'dhruvasagar/vim-table-mode'
 " =====================================================
 
 call vundle#end()
 filetype plugin indent on
+" }}}
 
 set laststatus=2
 set noshowmode
@@ -43,51 +45,65 @@ let g:lightline = {
 	\ },
 	\ }
 
+nnoremap <leader>t :NERDTreeToggle<CR>
 
 
-" ================== "
-" ==== SETTINGS ==== "
-" ================== "
+" }}}
+" ==[ SETTINGS ]== {{{"
 
 syntax enable
 colorscheme wombat
 
 if has('gui_running')
+	set guioptions-=m  " no menubar
 	set guioptions-=T  " no toolbar
+	set guioptions-=r  " no right scrollbar
+	set guioptions-=L  " no left scrollbar
 	set guifont=Courier_New:h9:cANSI:qDRAFT
-	set lines=50 columns=108 linespace=0
+	set lines=75 columns=180 linespace=0
 endif
 
-set number relativenumber
 augroup numbertoggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+	autocmd!
+	autocmd BufEnter,FocusGained,InsertLeave * set number relativenumber
+	autocmd BufLeave,FocusLost,InsertEnter   * set number norelativenumber
 augroup END
 
 set autoread
-set ruler
-set tabstop=4 		" tab
-set shiftwidth=4 	" indent
-set smartindent
 set wildmenu
+
+" Indentation
+set shiftwidth=4
+set tabstop=4
+set autoindent
+set smartindent
 
 autocmd VimResized * wincmd =
 
-
-" ================== "
-" ==== MAPPINGS ==== "
-" ================== "
+" }}}
+" ==[ MAPPINGS ]== {{{"
 
 " Remap <leader>
 let mapleader = "\<Space>"
 
 nnoremap <leader>rv :source $MYVIMRC<CR>
-nnoremap <leader>av :tabnew $MYVIMRC<CR>
+nnoremap <leader>av :call OpenVimrc()<CR>
+function! OpenVimrc()
+	if line('$') == 1 && getline(1) == ''  " if not empty, new tab
+		:edit $MYVIMRC
+	else
+		:tabnew $MYVIMRC
+	endif
+endfunction
 
-nnoremap <leader>w :w<CR>
-nnoremap <leader>q :wq<CR>
+" System
+nnoremap <leader>w :w<CR>|		" Write file
+nnoremap <leader>q :x<CR>|		" Quit/SaveQuit file
+nnoremap - :|					" Command Mode
+nnoremap ½ $| 					" End of line
+nnoremap <leader>c <C-W><C-W>|  " Cycle through windows
 
+" Tabs
 nnoremap <leader>n :tabnew
 nnoremap <leader>x :tabclose<CR>
 nnoremap <leader>h :tabfirst<CR>
@@ -95,4 +111,14 @@ nnoremap <leader>j :tabnext<CR>
 nnoremap <leader>k :tabprev<CR>
 nnoremap <leader>l :tablast<CR>
 
+inoremap {<CR> {<CR>}<Esc>O
+inoremap { {}<Esc>i
+inoremap ( ()<Esc>i
+inoremap [ []<Esc>i
+inoremap " ""<Esc>i
+inoremap ' ''<Esc>i
+
+inoremap <C-j> <Esc>/[)}"'\]>]<CR>:nohl<CR>a
+
+" }}}
 
