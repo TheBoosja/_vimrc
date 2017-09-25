@@ -90,7 +90,11 @@ nnoremap <leader>rv :source $MYVIMRC<CR>
 nnoremap <leader>av :call OpenVimrc()<CR>
 function! OpenVimrc()
 	if line('$') == 1 && getline(1) == ''  " if not empty, new tab
-		:edit $MYVIMRC
+		if &modified
+			:edit! $MYVIMRC
+		else
+			:edit $MYVIMRC
+		endif
 	else
 		:tabnew $MYVIMRC
 	endif
