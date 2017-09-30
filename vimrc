@@ -7,7 +7,9 @@ set foldmethod=marker
 
 " ==[ PLUGINS  ]== {{{"
 
-set nocompatible
+if &compatible
+	set nocompatible
+endif
 filetype off
 
 " --[ plugins ]-- {{{ "
@@ -21,9 +23,13 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'chriskempson/base16-vim'
 Plugin 'vim-scripts/Wombat'
 
-Plugin 'tpope/vim-fugitive'
+" Syntax & Intellisence
+Plugin 'w0rp/ale' 						" Linting
+Plugin 'shawncplus/phpcomplete.vim'
+
+Plugin 'tpope/vim-fugitive'				" Git
 Plugin 'itchyny/lightline.vim'
-Plugin 'scrooloose/nerdtree'
+" Plugin 'scrooloose/nerdtree'
 Plugin 'dhruvasagar/vim-table-mode'
 " =====================================================
 
@@ -45,13 +51,16 @@ let g:lightline = {
 	\ },
 	\ }
 
-nnoremap <leader>t :NERDTreeToggle<CR>
+" nnoremap <leader>t :NERDTreeToggle<CR>
 
 
 " }}}
 " ==[ SETTINGS ]== {{{"
 
-syntax enable
+set encoding=utf-8
+if !exists("g:syntax_on")
+	syntax enable
+endif
 colorscheme wombat
 
 if has('gui_running')
@@ -60,7 +69,7 @@ if has('gui_running')
 	set guioptions-=r  " no right scrollbar
 	set guioptions-=L  " no left scrollbar
 	set guifont=Courier_New:h9:cANSI:qDRAFT
-	set lines=75 columns=180 linespace=0
+	set lines=75 linespace=0
 endif
 
 augroup numbertoggle
@@ -69,8 +78,25 @@ augroup numbertoggle
 	autocmd BufLeave,FocusLost,InsertEnter   * set number norelativenumber
 augroup END
 
-set autoread
-set wildmenu
+" System
+set wildmenu		" :autocomplete
+set path+=**		" recursive path
+set splitright		" split to right
+set autoread		" on ext change, autoread file
+set scrolloff=5		" scroll 5 lines from top/bottom
+set cursorline		" show cursorline
+set autochdir		" change working dir to curr file
+set showbreak=\\\\\
+set backspace=indent,eol,start 	" Allow deleting indent and line breaks
+autocmd VimResized * wincmd =	" resizes splits on drag
+
+" Session
+set sessionoptions+=resize,winpos
+autocmd VimEnter * :source $HOME/vimfiles/session.vim
+autocmd VimLeave * :mksession! $HOME/vimfiles/session.vim
+
+" ctags
+nnoremap <leader>, <C-]><CR>
 
 " Indentation
 set shiftwidth=4
@@ -78,7 +104,11 @@ set tabstop=4
 set autoindent
 set smartindent
 
-autocmd VimResized * wincmd =
+" netrw
+nnoremap <leader>o :Vexplore<CR>
+let g:netrw_liststyle = 3
+let g:netrw_banner = 0
+let g:netrw_browse_split = 0
 
 " }}}
 " ==[ MAPPINGS ]== {{{"
@@ -86,26 +116,21 @@ autocmd VimResized * wincmd =
 " Remap <leader>
 let mapleader = "\<Space>"
 
-nnoremap <leader>rv :source $MYVIMRC<CR>
+nnoremap <leader>rv :write<CR>:source $MYVIMRC<CR>
 nnoremap <leader>av :call OpenVimrc()<CR>
-function! OpenVimrc()
+function! OpenVimrc() abort
 	if line('$') == 1 && getline(1) == ''  " if not empty, new tab
-		if &modified
-			:edit! $MYVIMRC
-		else
-			:edit $MYVIMRC
-		endif
+		:edit $MYVIMRC
 	else
-		:tabnew $MYVIMRC
+		:vsplit $MYVIMRC
 	endif
 endfunction
 
 " System
-nnoremap <leader>w :w<CR>|		" Write file
-nnoremap <leader>q :x<CR>|		" Quit/SaveQuit file
-nnoremap - :|					" Command Mode
-nnoremap ½ $| 					" End of line
-nnoremap <leader>c <C-W><C-W>|  " Cycle through windows
+nnoremap <leader>w :write<CR>|		" Write file
+nnoremap <leader>q :xit<CR>|		" Quit/SaveQuit file
+nnoremap - :|						" Command Mode
+nnoremap <leader>c <C-W><C-W>|  	" Cycle through windows
 
 " Tabs
 nnoremap <leader>n :tabnew
@@ -115,11 +140,11 @@ nnoremap <leader>j :tabnext<CR>
 nnoremap <leader>k :tabprev<CR>
 nnoremap <leader>l :tablast<CR>
 
-inoremap {<CR> {<CR>}<Esc>O
+" Braces & Quotes
+inoremap {<CR> {<CR><BS>}<Esc>O
 inoremap { {}<Esc>i
 inoremap ( ()<Esc>i
 inoremap [ []<Esc>i
-inoremap " ""<Esc>i
 inoremap ' ''<Esc>i
 
 inoremap <C-j> <Esc>/[)}"'\]>]<CR>:nohl<CR>a
