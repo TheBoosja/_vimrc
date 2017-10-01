@@ -28,6 +28,10 @@ Plugin 'w0rp/ale' 						" Linting
 Plugin 'shawncplus/phpcomplete.vim'
 
 Plugin 'tpope/vim-fugitive'				" Git
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-repeat'				" . repeat
+Plugin 'tpope/vim-commentary'			" gcc
+Plugin 'tpope/vim-speeddating'			" time <C-a> & <C-x>
 Plugin 'itchyny/lightline.vim'
 " Plugin 'scrooloose/nerdtree'
 Plugin 'dhruvasagar/vim-table-mode'
@@ -90,10 +94,10 @@ set showbreak=\\\\\
 set backspace=indent,eol,start 	" Allow deleting indent and line breaks
 autocmd VimResized * wincmd =	" resizes splits on drag
 
-" Session
-set sessionoptions+=resize,winpos
-autocmd VimEnter * :source $HOME/vimfiles/session.vim
-autocmd VimLeave * :mksession! $HOME/vimfiles/session.vim
+" " Session
+" set sessionoptions+=resize,winpos
+" autocmd VimEnter * :source $HOME/vimfiles/session.vim
+" autocmd VimLeave * :mksession! $HOME/vimfiles/session.vim
 
 " ctags
 nnoremap <leader>, <C-]><CR>
@@ -109,6 +113,10 @@ nnoremap <leader>o :Vexplore<CR>
 let g:netrw_liststyle = 3
 let g:netrw_banner = 0
 let g:netrw_browse_split = 0
+
+" 81st column
+highlight ColorColumn ctermbg=black
+call matchadd('ColorColumn', '\%81v', 100)
 
 " }}}
 " ==[ MAPPINGS ]== {{{"
