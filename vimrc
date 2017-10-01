@@ -73,7 +73,7 @@ if has('gui_running')
 	set guioptions-=r  " no right scrollbar
 	set guioptions-=L  " no left scrollbar
 	set guifont=Courier_New:h9:cANSI:qDRAFT
-	set lines=75 linespace=0
+	set lines=75 columns=100 linespace=0
 endif
 
 augroup numbertoggle
