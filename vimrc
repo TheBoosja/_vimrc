@@ -60,6 +60,7 @@ let g:lightline = {
 
 " }}}
 " ==[ SETTINGS ]== {{{"
+set noswapfile
 
 set encoding=utf-8
 if !exists("g:syntax_on")
@@ -73,7 +74,7 @@ if has('gui_running')
 	set guioptions-=r  " no right scrollbar
 	set guioptions-=L  " no left scrollbar
 	set guifont=Courier_New:h9:cANSI:qDRAFT
-	set lines=75 columns=100 linespace=0
+	set lines=75 columns=200 linespace=1
 endif
 
 augroup numbertoggle
@@ -87,10 +88,10 @@ set wildmenu		" :autocomplete
 set path+=**		" recursive path
 set splitright		" split to right
 set autoread		" on ext change, autoread file
-set scrolloff=5		" scroll 5 lines from top/bottom
+set scrolloff=2		" scroll 5 lines from top/bottom
 set cursorline		" show cursorline
 set autochdir		" change working dir to curr file
-set showbreak=\\\\\
+set showbreak=\\\
 set backspace=indent,eol,start 	" Allow deleting indent and line breaks
 autocmd VimResized * wincmd =	" resizes splits on drag
 
@@ -117,6 +118,7 @@ let g:netrw_browse_split = 0
 " 81st column
 highlight ColorColumn ctermbg=black
 call matchadd('ColorColumn', '\%81v', 100)
+
 
 " }}}
 " ==[ MAPPINGS ]== {{{"
@@ -152,10 +154,17 @@ nnoremap <leader>l :tablast<CR>
 inoremap {<CR> {<CR><BS>}<Esc>O
 inoremap { {}<Esc>i
 inoremap ( ()<Esc>i
+inoremap () ()
+inoremap (<CR> (<CR><BS>)<Esc>O
 inoremap [ []<Esc>i
+inoremap [] []
+inoremap [<CR> [<CR><BS>]<Esc>O
 inoremap ' ''<Esc>i
 
 inoremap <C-j> <Esc>/[)}"'\]>]<CR>:nohl<CR>a
+
+nnoremap , ;
+nnoremap ; ,
 
 " }}}
 
