@@ -34,7 +34,9 @@ Plugin 'tpope/vim-commentary'			" gcc
 Plugin 'tpope/vim-speeddating'			" time <C-a> & <C-x>
 Plugin 'itchyny/lightline.vim'
 " Plugin 'scrooloose/nerdtree'
-Plugin 'dhruvasagar/vim-table-mode'
+Plugin 'vimwiki/vimwiki'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 " =====================================================
 
 call vundle#end()
@@ -57,6 +59,12 @@ let g:lightline = {
 
 " nnoremap <leader>t :NERDTreeToggle<CR>
 
+" UltiSnips
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsEditSplit="vertical"
+
 
 " }}}
 " ==[ SETTINGS ]== {{{"
@@ -73,7 +81,7 @@ if has('gui_running')
 	set guioptions-=r  " no right scrollbar
 	set guioptions-=L  " no left scrollbar
 	set guifont=Courier_New:h9:cANSI:qDRAFT
-	set lines=75 columns=100 linespace=0
+	set lines=75 linespace=1
 endif
 
 augroup numbertoggle
@@ -82,17 +90,29 @@ augroup numbertoggle
 	autocmd BufLeave,FocusLost,InsertEnter   * set number norelativenumber
 augroup END
 
+augroup TxtFile
+	autocmd!
+	autocmd FileType text setlocal wrap
+augroup END
+
 " System
 set wildmenu		" :autocomplete
 set path+=**		" recursive path
 set splitright		" split to right
 set autoread		" on ext change, autoread file
-set scrolloff=5		" scroll 5 lines from top/bottom
+set scrolloff=2		" scroll 5 lines from top/bottom
 set cursorline		" show cursorline
 set autochdir		" change working dir to curr file
-set showbreak=\\\\\
+set showbreak=\\\
 set backspace=indent,eol,start 	" Allow deleting indent and line breaks
+set nowrap
+set directory=$HOME/vimfiles/tmp//
 autocmd VimResized * wincmd =	" resizes splits on drag
+
+" Search
+set incsearch
+set ignorecase
+set smartcase
 
 " " Session
 " set sessionoptions+=resize,winpos
@@ -150,12 +170,13 @@ nnoremap <leader>l :tablast<CR>
 
 " Braces & Quotes
 inoremap {<CR> {<CR><BS>}<Esc>O
-inoremap { {}<Esc>i
-inoremap ( ()<Esc>i
-inoremap [ []<Esc>i
-inoremap ' ''<Esc>i
+inoremap (<CR> (<CR><BS>)<Esc>O
+inoremap [<CR> [<CR><BS>]<Esc>O
+" inoremap <C-j> <Esc>/[)}"'\]>]<CR>:nohl<CR>a
 
-inoremap <C-j> <Esc>/[)}"'\]>]<CR>:nohl<CR>a
+nnoremap , ;|		" f/F next
+nnoremap ; ,|		" f/F prev
+nnoremap n nzz|		" center next match
 
 " }}}
 
